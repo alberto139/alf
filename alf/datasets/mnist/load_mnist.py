@@ -3,6 +3,8 @@ import cv2
 
 def convert(csv):
     file = open(csv, "r")
+    labels = []
+    digits = []
     
     for line in file:
         line = line.split(',')
@@ -24,15 +26,19 @@ def convert(csv):
             digit[r][c] = int(line[i])
 
         digit = np.asarray(digit, dtype = np.uint8)
-        cv2.imshow("mnist digit", digit)
-        cv2.waitKey(1)
+        labels.append(label)
+        digits.append(digit)
+
+    return (labels, digits)
+        #cv2.imshow("mnist digit", digit)
+        #cv2.waitKey(1)
         #print('\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in digit]))
 
-def load_mnist():
-    X_train = y_train = X_test = y_test = []
-    
 
-    return (X_train, y_train), (X_test, y_test)
+def load():
+    print("Loading MNIST...")
+    y_test, x_test = convert("~/Desktop/alf/datasets/mnist/mnist_test.csv")
+    y_train, x_train = convert("~/Desktop/alf/datasets/mnist/mnist_train.csv")
 
-load_mnist()
-#convert("mnist_test.csv")
+    return (x_train, y_train), (x_test, y_test)
+
