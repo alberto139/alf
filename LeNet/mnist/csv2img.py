@@ -1,3 +1,5 @@
+import numpy as np
+import cv2
 
 def convert(csv):
     file = open(csv, "r")
@@ -9,28 +11,23 @@ def convert(csv):
         # Initialize digit as 28 x 28 which is the shape of an mnist sample
         w, h = (28, 28)
         digit = [[0 for x in range(w)] for y in range(h)]
-        #print(digit)
-        
-        r, c = (0, 0)
-        for i in range(1, 784):
-            #print(i)
-            
-            
 
-            #print(str(i) + ": " + str(r) + ", " + str(c) + " = " + str(line[i]))
-            #print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in digit]))
-            digit[r][c] = line[i]
+        r, c = (0, 0)
+        # Take the unrolled 784 vector and structure it as a matrix.
+        for i in range(1, 784):
 
             if i % 28 == 0:
                 r = r + 1
                 c = 0
             else:
                 c = c + 1
-            
-            
-        #print(label)
-        print('\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in digit]))
-        #return
+            digit[r][c] = int(line[i])
+
+        digit = np.asarray(digit, dtype = np.uint8)
+        cv2.imshow("mnist digit", digit)
+        cv2.waitKey(1)
+        #print('\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in digit]))
+
         
 
 
